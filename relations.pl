@@ -21,7 +21,7 @@ isSeniorOf(PersonA, PersonB):-
     isSeniorOf+(PersonA, PersonB).
 listSeniors(Person, Seniors):-
     findall(Senior, isSeniorOf(Senior, Person), Seniors).
-listJuniors(Person, Juniors):- fail.
+listJuniors(Person, Juniors):-
     findall(Junior, isSeniorOf(Person, Junior), Juniors).
 isStudent(Person):-
     \+ isTeacher(Person).
@@ -40,29 +40,41 @@ isYounger(Person1, Person2):-
 oldestStudent(Person, House):-
     isStudent(Person),
     houseOf(House, Person),
-    houseOf(House, StudentInHouse),
-    StudentInHouse \= Person,
-    \+ (isOlder(StudentInHouse, Person)).
-    %% \+ isYounger(StudentInHouse, Person).
-    %% not(isOlder(StudentInHouse, Person)).
-youngestStudent(Person, House):- fail.
-    %% isStudent(Person),
-    %% birthYear(Person, BirthYear),
-    %% %% houseOf(House, StudentInHouse),
-    %% %% StudentInHouse \= Person,
-    %% %% \+ isOlder(_, Person).
-    %% \+ (isStudent(OtherStudent),
-    %%     birthYear(OtherStudent, OtherBirthYear),
-    %%     houseOf(House, OtherStudent),
-    %%     OtherBirthYear > BirthYear).
+    %% There does not exist a student in the house that is older.
+    not(
+        (
+            houseOf(House, StudentInHouse),
+            StudentInHouse \= Person,
+            isOlder(StudentInHouse, Person)
+        )
+    ).
+youngestStudent(Person, House):-
+    isStudent(Person),
+    houseOf(House, Person),
+    %% There does not exist a student in the house that is younger.
+    not(
+        (
+            houseOf(House, StudentInHouse),
+            StudentInHouse \= Person,
+            isYounger(StudentInHouse, Person)
+        )
+    ).
 isQuidditchPlayer(Student):-
     quidditchTeamOf(_, Student).
-oldestQuidditchStudent(Team, Student):- fail.
-    %% quidditchTeamOf(Team, Student),
-    %% qudditchTeamOf(Team, OtherPlayerOnTeam),
-    %% Student \= OtherPlayerOnTeam.
-
-youngestQuidditchStudent(Team, Student):- fail.
+oldestQuidditchStudent(Team, Student):-
+    quidditchTeamOf(Team, Student),
+    QuidditchPlayers = forall(Person, quidditchTeamOf(Team, Person)),
+    not((
+        member(Player, QuidditchPlayers),
+        isOlder(Player, Student)
+        )).
+youngestQuidditchStudent(Team, Student):-
+    quidditchTeamOf(Team, Student),
+    QuidditchPlayers = forall(Person, quidditchTeamOf(Team, Person)),
+    not((
+            member(Player, QuidditchPlayers),
+            isYounger(Player, Student)
+        )).
 rival(StudentOne, StudentTwo):-
     houseOf(House1, StudentOne),
     houseOf(House2, StudentTwo),
