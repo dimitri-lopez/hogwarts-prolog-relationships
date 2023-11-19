@@ -39,6 +39,10 @@ test3 :-
     % Define the rest of the tests in a similar fashion.
     write('Test 3: Albus Dumbledore is senior to Ginny Weasley: '),
     isSeniorOf(albus_dumbledore, ginny_weasley).
+test3_1 :-
+    % Define the rest of the tests in a similar fashion.
+    write('Test 3_1: FLIPPED Ginny Weasley is senior to Albus Dumbledore: '),
+    \+ isSeniorOf(ginny_weasley, albus_dumbledore).
 
 test4 :-
     % Define the rest of the tests in a similar fashion.
@@ -56,6 +60,10 @@ test6 :-
     % Define the rest of the tests in a similar fashion.
     write( 'Test 6: Oldest student in the House Gryffindor is Alicia Spinnet: '),
     oldestStudent(alicia_spinnet, gryffindor).
+test6_1 :-
+    % Define the rest of the tests in a similar fashion.
+    write( 'Test 6_1: Oldest student in the House Gryffindor is not Harry Potter: '),
+    \+ oldestStudent(harry_potter, gryffindor).
 
 test7 :-
     % Define the rest of the tests in a similar fashion.
@@ -96,9 +104,11 @@ main:-
     printTestResult(test1),
     printTestResult(test2),
     printTestResult(test3),
+    printTestResult(test3_1),
     printTestResult(test4),
     printTestResult(test5),
     printTestResult(test6),
+    printTestResult(test6_1),
     printTestResult(test7),
     printTestResult(test8),
     printTestResult(test9),
