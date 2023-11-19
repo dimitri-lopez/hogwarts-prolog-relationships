@@ -75,12 +75,20 @@ test9 :-
 test10 :-
     % Define the rest of the tests in a similar fashion.
     write( 'Test 10: Harry Potter and Draco Malfoy are rivals: '),
-    rival(harry_potter,draco_malfoy),
-    rival(draco_malfoy,harry_potter).
+    rival(harry_potter, draco_malfoy),
+    rival(draco_malfoy, harry_potter).
 test11 :-
     % Define the rest of the tests in a similar fashion.
     write('Test 11: Harry Potter and Draco Malfoy are not only rivals but also live far away from each other: '),
     farRival(harry_potter,draco_malfoy).
+test12 :-
+    % Define the rest of the tests in a similar fashion.
+    write('Test 12: Check if Snape is a teacher: '),
+    isTeacher(severus_snape).
+test13 :-
+    % Define the rest of the tests in a similar fashion.
+    write('Test 13: Check if Harry Potter is a student: '),
+    isStudent(harry_potter).
 
 
 
@@ -95,4 +103,6 @@ main:-
     printTestResult(test8),
     printTestResult(test9),
     printTestResult(test10),
-    printTestResult(test11).
+    printTestResult(test11),
+    printTestResult(test12),
+    printTestResult(test13).
