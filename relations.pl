@@ -20,15 +20,32 @@ isStudent(Person):-
 isTeacher(Person):-
     teacherOf(Person, _).
 isOlder(Person1, Person2):-
-    Person1 #\= Person2,
+    Person1 \= Person2,
+    birthYear(Person1, BirthYear1),
+    birthYear(Person2, BirthYear2),
+    BirthYear1 < BirthYear2.
+isYounger(Person1, Person2):-
+    Person1 \= Person2,
     birthYear(Person1, BirthYear1),
     birthYear(Person2, BirthYear2),
     BirthYear1 > BirthYear2.
 oldestStudent(Person, House):-
-    isStudent(Person).
+    isStudent(Person),
+    houseOf(House, StudentInHouse),
+    StudentInHouse \= Person,
+    isOlder(Person, StudentInHouse).
+youngestStudent(Person, House):-
+    isStudent(Person),
+    houseOf(House, StudentInHouse),
+    StudentInHouse \= Person,
+    isYounger(Person, StudentInHouse).
+isQuidditchPlayer(Student):-
+    quidditchTeamOf(_, Student).
+oldestQuidditchStudent(Team, Student):-
+    quidditchTeamOf(Team, Student),
+    qudditchTeamOf(Team, OtherPlayerOnTeam),
+    Student \= OtherPlayerOnTeam
 
-youngestStudent(Person, House):- fail.
-oldestQuidditchStudent(Team, Student):- fail.
 youngestQuidditchStudent(Team, Student):- fail.
 rival(StudentOne, StudentTwo):-
     houseOf(House1, StudentOne),
