@@ -10,3 +10,7 @@ grep "Passed" part1Result.txt
 echo
 echo Failed the following test cases: $failed / $total
 grep "Failed" part1Result.txt
+
+
+# For running part 2:
+swipl -s part2.pl -t main --quiet -- example1.txt
