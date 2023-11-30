@@ -21,7 +21,7 @@ value(Value) --> [Value], {
                      0 < Converted_Value,
                      write("Value: "), write(Value), nl
                  }.
-has_item(Person, Item, Cost, Volume) --> person(Person), [has, item], item(Item), [that, costs], value(Cost), [dollars, _, and, occupies], value(Volume), [cubic, feet, _].
+has_item(Person, Item, Cost, Volume) --> person(Person), [has, item], item(Item), [that, costs], value(Cost), [dollars, comma, and, occupies], value(Volume), [cubic, feet, period].
 
 house(House) --> [House], {
                      houseOf(House, _),
