@@ -1,27 +1,12 @@
 :- [hogwarts].
 :- [part2Helper].
 
-%% sentence --> [has_item] | [request].
-%% has_item --> [Person] has item [Item] that costs [Value] dollars, and occupies [Value] cubic feet.
-%% request --> house_name, volume_constraint_type, price_constraint_type, price_amount.
+person(Person) --> [Person], {houseOf(_, Person)}.
+has_item(Person, Item, Cost, Volume) --> person(Person), [has, item, Item, that, costs, Cost, dollars, _, and, occupies, Volume, cubic, feet, _].
 
-%% person --> houseOf(_, Person).
-%% item --> {a, b, c, ..., x, y, z}.
-%% value --> {1, 2, 3, ...}.
-%% house --> houseOf(House, _).
-%% attributeValue --> Attribute, Comparison, Value, Unit.
-%% comparison --> less_than | greater_than.
-%% attribute --> total_price | total_volume.
-%% unit --> dollars | cubic_feet.
-
-
-%% parse_sentence(Sentence) :-
-%% has_item --> [Person] has item [Item] that costs [Value] dollars, and occupies [Value] cubic feet.
-%% has_item(Person, Item, Cost, Volume) --> Person, [has, item], Item, [that, costs], Cost, Volume.
-has_item(Person, Item, Cost, Volume) --> [Person, has, item, Item, that, costs, Cost | Volume].
-person(Person) --> [Person], houseOf(_, Person). % This doesn't work yet.
-%% person(Person) --> [Name], {atom{Item}}.
-%% item(Item) --> [Item], {atom(Item)}.
+cost(Cost) -->
+    [CostString],
+    { catch(number_string(Cost, CostString), _, fail), integer(Cost) }.
 
 parse_lines([]) :-
     write("Finished parsing all the lines."),
