@@ -31,14 +31,15 @@ has_item(Person, Item, Cost, Volume) -->
     }.
 
 house(House) --> [House], {houseOf(House, _)}.
-comparison --> [less, than] | [greater, than].
+comparison(less_than) --> [less, than].
+comparison(greater_than) --> [greater, than].
 attribute(money) --> [total, price].
 attribute(volume) --> [total, volume].
 unit(money) --> [dollars].
 unit(volume) --> [cubic, feet].
-attribute_value --> attribute(UnitType), comparison, value(_), unit(UnitType).
-house_request -->
-    house(House), [house, wants], attribute_value, [and], attribute_value, period.
+attribute_value(UnitType, Comparison, Value) --> attribute(UnitType), comparison(Comparison), value(Value), unit(UnitType).
+house_request(House, UnitType1, Comparison1, Value1, UnitType2, Comparison2, Value2) -->
+    house(House), [house, wants], attribute_value(UnitType1, Comparison1, Value1), [and], attribute_value(UnitType2, Comparison2, Value2), period.
 
 parse_lines([]) :-
     write("Finished parsing all the lines."), nl.
@@ -59,7 +60,16 @@ parse_item(Sentence) :-
     write("Was able to parse item!"), nl.
 
 parse_house_request(Sentence) :-
-    phrase(house_request, Sentence),
+    phrase(house_request(House, UnitType1, Comparison1, Value1,
+                         UnitType2, Comparison2, Value2),
+           Sentence),
+    write("House: "), write(House), nl,
+    write("UnitType1: "), write(UnitType1), nl,
+    write("Comparison1: "), write(Comparison1), nl,
+    write("Value1: "), write(Value1), nl,
+    write("UnitType2: "), write(UnitType2), nl,
+    write("Comparison2: "), write(Comparison2), nl,
+    write("Value2: "), write(Value2), nl,
     write("Was able to parse house request!"), nl.
 
 % Hints:
