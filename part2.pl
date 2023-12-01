@@ -42,12 +42,22 @@ house_request -->
 
 parse_lines([]) :-
     write("Finished parsing all the lines."), nl.
-parse_lines([Sentence | _]) :-
+parse_lines([Sentence | LinesToParse]) :-
     write("Original Sentence: "), write(Sentence), nl,
+    (
+        parse_item(Sentence) ->
+        true ;
+        parse_house_request(Sentence)
+    ),
+    parse_lines(LinesToParse).
+
+parse_item(Sentence) :-
     phrase(has_item(Person, Item, Cost, Volume), Sentence),
-    %% phrase(house_request, Sentence),
-    %% phrase(attribute_value, Sentence),
-    write("Was able to parse!"), nl.
+    write("Was able to parse item!"), nl.
+
+parse_house_request(Sentence) :-
+    phrase(house_request, Sentence),
+    write("Was able to parse house request!"), nl.
 
 % Hints:
 %   for NLP parser make sure you match the type of the atom: 
