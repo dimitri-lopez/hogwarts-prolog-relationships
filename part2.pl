@@ -53,6 +53,9 @@ parse_lines([Sentence | LinesToParse]) :-
 
 parse_item(Sentence) :-
     phrase(has_item(Person, Item, Cost, Volume), Sentence),
+    assert(
+        item_info(Item, Person, Cost, Volume)
+    ),
     write("Was able to parse item!"), nl.
 
 parse_house_request(Sentence) :-
