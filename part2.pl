@@ -18,39 +18,36 @@ value(Value) --> [Value], {
                      atom(Value),
                      atom_number(Value, Converted_Value),
                      integer(Converted_Value),
-                     0 < Converted_Value,
-                     write("Value: "), write(Value), nl
+                     0 < Converted_Value
                  }.
-has_item(Person, Item, Cost, Volume) --> person(Person), [has, item], item(Item), [that, costs], value(Cost), [dollars, comma, and, occupies], value(Volume), [cubic, feet, period].
+has_item(Person, Item, Cost, Volume) -->
+    person(Person), [has, item], item(Item), [that, costs], value(Cost), [dollars], comma,
+    [and, occupies], value(Volume), [cubic, feet], period,
+    {
+        write("Person: "), write(Person), nl,
+        write("Item: "), write(Item), nl,
+        write("Cost: "), write(Cost), nl,
+        write("Volume: "), write(Volume), nl
+    }.
 
-house(House) --> [House], {
-                     houseOf(House, _),
-                     write("Parsed House: "), write(House), nl
-                 }.
+house(House) --> [House], {houseOf(House, _)}.
 comparison --> [less, than] | [greater, than].
 attribute(money) --> [total, price].
-attribute(volume) --> [cubic, feet].
+attribute(volume) --> [total, volume].
 unit(money) --> [dollars].
 unit(volume) --> [cubic, feet].
 attribute_value --> attribute(UnitType), comparison, value(_), unit(UnitType).
-house_request --> house(House), [house, wants], attribute_value, [and], attribute_value, period.
+house_request -->
+    house(House), [house, wants], attribute_value, [and], attribute_value, period.
 
 parse_lines([]) :-
-    write("Finished parsing all the lines."),
-    write("\n").
+    write("Finished parsing all the lines."), nl.
 parse_lines([Sentence | _]) :-
-    write("Original Sentence: "),
-    write(Sentence),
-    write("\n"),
-    %% phrase(has_item(Person, Item, Cost, Volume), Sentence),
-    %% write("Person: "), write(Person), nl,
-    %% write("Item: "), write(Item), nl,
-    %% write("Cost: "), write(Cost), nl,
-    %% write("Volume: "), write(Volume), nl,
-
-    phrase(house_request, Sentence),
-    write("Was able to parse!"), nl,
-    write("\n").
+    write("Original Sentence: "), write(Sentence), nl,
+    phrase(has_item(Person, Item, Cost, Volume), Sentence),
+    %% phrase(house_request, Sentence),
+    %% phrase(attribute_value, Sentence),
+    write("Was able to parse!"), nl.
 
 % Hints:
 %   for NLP parser make sure you match the type of the atom: 
